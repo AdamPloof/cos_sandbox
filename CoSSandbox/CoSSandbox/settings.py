@@ -39,12 +39,14 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
+    'crispy_forms',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
     'artistMarket',
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -140,3 +142,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Authentication
 LOGIN_REDIRECT_URL = 'index'
+
+# Forms
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
