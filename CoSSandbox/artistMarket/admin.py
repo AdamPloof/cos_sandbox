@@ -1,3 +1,9 @@
 from django.contrib import admin
+from .models import ArtworkCollection, ArtWork
 
-# Register your models here.
+models = [
+    ArtWork, 
+    ArtworkCollection,
+]
+
+admin.site.register(models)
