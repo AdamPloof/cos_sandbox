@@ -1,8 +1,9 @@
+from .models import ArtworkCollection
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from .forms import CollectionForm, ArtWorkForm
+from .forms import CollectionForm, ArtWorkForm, CollectionSelectForm
 
 def index(request):
     context = {
@@ -22,3 +23,35 @@ def addCollection(request):
         form = CollectionForm()
     
     return render(request, 'add_collection.html', {'form': form})
+
+def addArtwork(request, collectionId=None):
+    if not collectionId:
+        return HttpResponseRedirect(reverse('select_collection'))
+
+    collection = ArtworkCollection.objects.get(pk=collectionId)
+
+    if request.method == 'POST':
+        form = ArtWorkForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('index'))
+    else:
+        form = ArtWorkForm(initial={'collection': collection})
+    
+    return render(request, 'add_artwork.html', {'form': form})
+
+def selectCollection(request):
+    if request.method == 'POST':
+        form = CollectionSelectForm(request.POST, user=request.user)
+        form.setCollectionNames()
+
+        if form.is_valid():
+            collectionName = form.cleaned_data['collection']
+            collection = ArtworkCollection.objects.get(collection_name=collectionName)
+
+            return HttpResponseRedirect(reverse('add_artwork', kwargs={'collectionId': collection.pk}))
+    else:
+        form = CollectionSelectForm(user=request.user)
+        form.setCollectionNames()
+    
+    return render(request, 'select_collection.html', {'form': form})
