@@ -31,7 +31,7 @@ def addArtwork(request, collectionId=None):
     collection = ArtworkCollection.objects.get(pk=collectionId)
 
     if request.method == 'POST':
-        form = ArtWorkForm(request.POST)
+        form = ArtWorkForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse('index'))

@@ -1,4 +1,10 @@
-from django.forms import ModelForm, Form, ChoiceField
+from django.forms import (
+    ModelForm,
+    Form,
+    ChoiceField,
+    HiddenInput
+)
+
 from .models import ArtworkCollection, ArtWork
 
 class CollectionForm(ModelForm):
@@ -19,8 +25,12 @@ class ArtWorkForm(ModelForm):
             'title',
             'description',
             'created_date',
+            'image',
             'collection',
         ]
+        widgets = {
+            'collection': HiddenInput()
+        }
 
 class CollectionSelectForm(Form):
     collection = ChoiceField(

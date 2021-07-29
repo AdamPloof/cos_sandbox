@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'artistMarket',
     'users',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -57,6 +58,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'CoSSandbox.urls'
@@ -145,3 +147,12 @@ LOGIN_REDIRECT_URL = 'index'
 
 # Forms
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+# Media
+MEDIA_ROOT = BASE_DIR / 'media/'
+MEDIA_URL = '/media/'
+
+# Debug Toolbar
+INTERNAL_IPS = [
+    '127.0.0.1',
+]

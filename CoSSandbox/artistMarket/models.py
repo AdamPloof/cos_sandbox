@@ -23,7 +23,7 @@ class ArtWork(models.Model):
     published_date = models.DateField(auto_now_add=True)
     artist = models.ForeignKey(User, on_delete=models.CASCADE)
     collection = models.ManyToManyField(ArtworkCollection)
-    # image = models.ImageField()
+    image = models.ImageField(upload_to='uploads/images/', null=True)
 
     def __str__(self):
         return self.title

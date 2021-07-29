@@ -10,6 +10,8 @@ markdown = "*"
 django-filter = "*"
 psycopg2-binary = "*"
 django-crispy-forms = "*"
+pillow = "*"
+django-debug-toolbar = "*"
 
 [dev-packages]
 
