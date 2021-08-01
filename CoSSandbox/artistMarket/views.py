@@ -4,6 +4,7 @@ from django.shortcuts import render
 from django.urls import reverse
 
 from .forms import CollectionForm, ArtWorkForm, CollectionSelectForm
+from services.artworkGenerator import ArtworkGenerator
 
 def index(request):
     context = {
@@ -59,3 +60,10 @@ def selectCollection(request):
         form.setCollectionNames()
     
     return render(request, 'select_collection.html', {'form': form})
+
+def generateArtworks(request, numArtworks):
+    if not numArtworks:
+        # Should probably provide a flash message like, "must provide number of artworks"
+        return HttpResponseRedirect(reverse('index'))
+
+    return
