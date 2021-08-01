@@ -26,11 +26,7 @@ class ArtWorkForm(ModelForm):
             'description',
             'created_date',
             'image',
-            'collection',
         ]
-        widgets = {
-            'collection': HiddenInput()
-        }
 
 class CollectionSelectForm(Form):
     collection = ChoiceField(
