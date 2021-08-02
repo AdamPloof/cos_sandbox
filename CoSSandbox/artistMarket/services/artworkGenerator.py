@@ -1,5 +1,7 @@
+from django.conf import settings
+
 from ..models import ArtWork, ArtworkCollection
-import datetime, random, requests, json
+import datetime, random, requests, json, os
 
 """
 Generate x number of Artworks entities
@@ -39,7 +41,8 @@ class ArtworkGenerator():
         return random_date
 
     def getTitle(self):
-        with open('./resources/titles.json', 'r') as titlesFile:
+        resource_path = settings.BASE_DIR / 'artistMarket' / 'services' / 'resources'
+        with open(resource_path / 'titles.json', 'r') as titlesFile:
             titlesJson = titlesFile.read()
 
         titles = json.loads(titlesJson)
@@ -47,7 +50,7 @@ class ArtworkGenerator():
         return random.choice(titles)
 
     def getDescription(self):
-        paragraphs = random.randint(1,3)
+        paragraphs = str(random.randint(1,3))
         url = 'https://loripsum.net/api/' + paragraphs + '/short/plaintext'
         r = requests.get(url)
 

@@ -3,8 +3,10 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
+import datetime
+
 from .forms import CollectionForm, ArtWorkForm, CollectionSelectForm
-from services.artworkGenerator import ArtworkGenerator
+from .services.artworkGenerator import ArtworkGenerator
 
 def index(request):
     context = {
@@ -66,4 +68,10 @@ def generateArtworks(request, numArtworks):
         # Should probably provide a flash message like, "must provide number of artworks"
         return HttpResponseRedirect(reverse('index'))
 
-    return
+    start_date = datetime.date(2020, 1, 1)
+    end_date = datetime.date(2021, 1, 1)
+
+    generator = ArtworkGenerator(start_date, end_date, request.user)
+    generator.generateArtworks(numArtworks)
+
+    return HttpResponseRedirect(reverse('index'))
