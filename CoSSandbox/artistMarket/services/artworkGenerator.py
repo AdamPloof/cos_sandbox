@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.core.exceptions import PermissionDenied
 
 from ..models import ArtWork, ArtworkCollection
 import datetime, random, requests, json, os
@@ -35,7 +36,7 @@ class ArtworkGenerator():
         return [image_path + image for image in images]
 
     def getRandomDate(self):
-        date_range = self.start_date - self.end_date
+        date_range =  self.end_date - self.start_date
         random_date = self.start_date + datetime.timedelta(days=random.randrange(date_range.days))
         
         return random_date
@@ -73,13 +74,19 @@ class ArtworkGenerator():
         artwork.title = self.getTitle()
         artwork.description = self.getDescription()
         artwork.created_date = self.getCreatedDate()
-        artwork.collection = self.getCollection()
         artwork.image.name = self.getImage()
-        artwork.artist = self.user
-        
+
+        try:
+            artwork.artist = self.user
+        except ValueError:
+            raise PermissionDenied
+
         return artwork
 
     def generateArtworks(self, numArtworks):
         for i in range(numArtworks):
             artwork = self.makeArtwork()
             artwork.save()
+
+            # Need to save the model instance before you can assign m2m relationships
+            artwork.collection.add(self.getCollection())

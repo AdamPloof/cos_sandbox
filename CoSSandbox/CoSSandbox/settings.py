@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-
+from django.contrib.messages import constants as message_constants
 from pathlib import Path
 import json
 
@@ -147,6 +147,11 @@ LOGIN_REDIRECT_URL = 'index'
 
 # Forms
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+# Messages
+MESSAGE_TAGS = {
+    message_constants.ERROR: 'danger',
+}
 
 # Media
 MEDIA_ROOT = BASE_DIR / 'media/'

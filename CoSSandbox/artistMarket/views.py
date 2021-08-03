@@ -1,10 +1,12 @@
-from .models import ArtworkCollection
+from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+from django.contrib import messages
 
 import datetime
 
+from .models import ArtworkCollection
 from .forms import CollectionForm, ArtWorkForm, CollectionSelectForm
 from .services.artworkGenerator import ArtworkGenerator
 
@@ -20,7 +22,9 @@ def addCollection(request):
         if form.is_valid():
             # Determine what the user wants to do next
             # Add flash message on collection save
-            form.save()
+            collection = form.save()
+            messages.add_message(request, messages.SUCCESS, f'Collection added: {collection}')
+
             return HttpResponseRedirect(reverse('index'))
     else:
         form = CollectionForm()
@@ -40,6 +44,9 @@ def addArtwork(request, collectionId=None):
             artwork.artist_id = request.user.id
             artwork.save()
             artwork.collection.add(collection)
+
+            artwork = form.save()
+            messages.add_message(request, messages.SUCCESS, f'Artwork added: {artwork}')
 
             return HttpResponseRedirect(reverse('index'))
     else:
@@ -66,12 +73,21 @@ def selectCollection(request):
 def generateArtworks(request, numArtworks):
     if not numArtworks:
         # Should probably provide a flash message like, "must provide number of artworks"
+        messages.add_message(request, messages.ERROR, 'Must provide number of artworks to add')
         return HttpResponseRedirect(reverse('index'))
 
     start_date = datetime.date(2020, 1, 1)
     end_date = datetime.date(2021, 1, 1)
 
     generator = ArtworkGenerator(start_date, end_date, request.user)
-    generator.generateArtworks(numArtworks)
+
+    try:
+        generator.generateArtworks(numArtworks)
+    except PermissionDenied as err:
+        messages.add_message(request, messages.ERROR, 'Cannot generate artworks all willy-nilly. You must login first.')
+        return HttpResponseRedirect(reverse('login'))
+
+
+    messages.add_message(request, messages.SUCCESS, f'Generated {numArtworks} artworks!')
 
     return HttpResponseRedirect(reverse('index'))
