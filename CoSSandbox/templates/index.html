@@ -2,4 +2,18 @@
 
 {% block body %}
     <h1>This is your brain on Art!</h1>
+    <div class="container">
+        <div class="content">
+            {% for collection in collections %}
+                <div class="collection-card">
+                    <div class="collection-card-header">
+                        {{ collection.collection_name}}
+                    </div>
+                    <div class="collection-card-body">
+                        {{ collection.collection_types }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}

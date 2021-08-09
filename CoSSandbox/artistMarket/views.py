@@ -16,8 +16,10 @@ from .serializers import CollectionSerializer, ArtworkSerializer
 from .services.artworkGenerator import ArtworkGenerator
 
 def index(request):
+    collections = ArtworkCollection.objects.all()
     context = {
         'page_title': 'Artist Home',
+        'collections': collections
     }
     return render(request, 'index.html', context)
 
