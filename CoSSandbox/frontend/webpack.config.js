@@ -5,7 +5,7 @@ module.exports = {
     mode: 'development',
     entry: path.resolve(__dirname, 'assets/js', 'index.js'),
     output: {
-      path: path.resolve(__dirname, 'dist'),
+      path: path.resolve(__dirname, '../static/CoSSandbox','dist'),
       filename: 'bundle.js'
     },
     module: {
