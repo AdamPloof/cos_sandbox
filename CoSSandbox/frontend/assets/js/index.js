@@ -1,3 +1,4 @@
+import React from 'react';
 import ReactDOM from 'react-dom';
 
 // JS
@@ -8,7 +9,7 @@ import '../scss/app.scss';
 
 const initApp = () => {
     console.log('Wello Horld!');
-    ReactDOM.render(document.body, <CollectionList />);
+    ReactDOM.render(<CollectionList />, document.getElementById('collection-list'));
 }
 
 initApp();
