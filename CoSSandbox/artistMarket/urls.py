@@ -8,4 +8,6 @@ urlpatterns = [
     path('add_artwork/<int:collectionId>', views.addArtwork, name='add_artwork'),
     path('select-collection/', views.selectCollection, name='select_collection'),
     path('generate-artworks/<int:numArtworks>', views.generateArtworks, name='generate_artworks'),
+    path('collections', views.collectionList, name='collections'),
+    path('artworks/<int:collectionId>', views.artworkList, name='artworks'),
 ]

@@ -4,10 +4,15 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.contrib import messages
 
+from rest_framework import serializers, status, permissions
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.response import Response
+
 import datetime
 
-from .models import ArtworkCollection
+from .models import ArtworkCollection, ArtWork
 from .forms import CollectionForm, ArtWorkForm, CollectionSelectForm
+from .serializers import CollectionSerializer, ArtworkSerializer
 from .services.artworkGenerator import ArtworkGenerator
 
 def index(request):
@@ -91,3 +96,20 @@ def generateArtworks(request, numArtworks):
     messages.add_message(request, messages.SUCCESS, f'Generated {numArtworks} artworks!')
 
     return HttpResponseRedirect(reverse('index'))
+
+@api_view(['GET'])
+@permission_classes((permissions.IsAuthenticated,))
+def collectionList(request):
+    if request.method == 'GET':
+        collections = ArtworkCollection.objects.all()
+        serializer = CollectionSerializer(collections, many=True)
+        return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes((permissions.IsAuthenticated,))
+def artworkList(request, collectionId):
+    if request.method == 'GET':
+        collection = ArtworkCollection.objects.get(pk=collectionId)
+        artworks = collection.artworks.all()
+        serializer = ArtworkSerializer(artworks, many=True)
+        return Response(serializer.data)
