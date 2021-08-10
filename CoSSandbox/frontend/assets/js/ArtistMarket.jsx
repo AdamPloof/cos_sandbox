@@ -1,4 +1,11 @@
 import React, { Component } from 'react';
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link
+} from 'react-router-dom';
+
 import CollectionList from "./components/CollectionList";
 
 class ArtistMarket extends Component {
@@ -89,10 +96,12 @@ class ArtistMarket extends Component {
     
     render() { 
         return (
-            <CollectionList 
-                collections={this.state.collections}
-                viewCollection={this.viewCollection}
-            />
+            <Router>
+                <CollectionList 
+                    collections={this.state.collections}
+                    viewCollection={this.viewCollection}
+                />
+            </Router>
         );
     }
 }
