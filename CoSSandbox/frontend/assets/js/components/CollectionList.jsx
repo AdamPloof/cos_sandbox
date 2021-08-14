@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 class CollectionList extends Component {
     makeCollectionList() {
@@ -11,9 +12,9 @@ class CollectionList extends Component {
                 {this.props.collections.map(collection => {
                     return (
                         <li key={collection.id} id={collection.id}>
-                            <a href="#" onClick={this.props.viewCollection}>
+                            <Link to={`/collection/${collection.id}`}>
                                 {collection.collection_name}
-                            </a>
+                            </Link>
                             <span>
                                 - <small className="text-muted">{collection.collection_types}</small>
                             </span>

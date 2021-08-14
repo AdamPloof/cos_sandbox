@@ -12,8 +12,7 @@ import bootstrap from 'bootstrap';
 import '../scss/app.scss';
 
 const initApp = () => {
-    console.log('Wello Horld!');
-    ReactDOM.render(<ArtistMarket />, document.getElementById('collection-list'));
+    ReactDOM.render(<ArtistMarket />, document.getElementById('collection-app'));
 }
 
 initApp();

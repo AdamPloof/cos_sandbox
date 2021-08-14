@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom';
 
 import CollectionList from "./components/CollectionList";
+import ArtworkCollection from './components/ArtworkCollection';
 
 class ArtistMarket extends Component {
     constructor(props) {
@@ -93,14 +94,28 @@ class ArtistMarket extends Component {
         const id = e.target.parentElement.id;
         this.fetchArtworks(id);
     }
+
+    getCollectionList() {
+        return (
+            <CollectionList 
+                collections={this.state.collections}
+                viewCollection={this.viewCollection}
+            />
+        );
+    }
+
+    getCollection(id) {
+        const selectedCollection = this.state.collections.find(artwork => artwork.id == id);
+        return <ArtworkCollection collection={selectedCollection} />
+    }
     
     render() { 
         return (
             <Router>
-                <CollectionList 
-                    collections={this.state.collections}
-                    viewCollection={this.viewCollection}
-                />
+                <Switch>
+                    <Route exact path="/" render={() => this.getCollectionList()} />
+                    <Route path="/collection/:collectionId" render={(routeProps) => this.getCollection(routeProps.match.params.collectionId)} />
+                </Switch>
             </Router>
         );
     }
