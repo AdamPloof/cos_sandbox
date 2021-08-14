@@ -15,6 +15,7 @@ class ArtworkSerializer(serializers.ModelSerializer):
     class Meta:
         model = ArtWork
         fields = [
+            'id',
             'title',
             'description',
             'created_date',

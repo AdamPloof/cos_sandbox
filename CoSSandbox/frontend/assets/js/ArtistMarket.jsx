@@ -18,16 +18,11 @@ class ArtistMarket extends Component {
         }
 
         this.viewCollection = this.viewCollection.bind(this);
+        this.fetchArtworks = this.fetchArtworks.bind(this);
     }
 
     componentDidMount() {
         this.fetchCollections();
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        if (prevState.artworks != this.state.artworks && this.state.artworks.length > 0) {
-            console.log('artworks updated');
-        }
     }
 
     async fetchCollections() {
@@ -106,7 +101,12 @@ class ArtistMarket extends Component {
 
     getCollection(id) {
         const selectedCollection = this.state.collections.find(artwork => artwork.id == id);
-        return <ArtworkCollection collection={selectedCollection} />
+
+        return <ArtworkCollection 
+            collection={selectedCollection} 
+            artworks={this.state.artworks}
+            fetchArtworks={this.fetchArtworks}
+        />
     }
     
     render() { 
