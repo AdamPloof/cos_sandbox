@@ -18,6 +18,59 @@ class ArtworkCollection extends Component {
         }
     }
 
+    makeArtworkGrid() {
+        let artworks = [...this.props.artworks];
+        let mosaics = [];
+        let artworkBatch = [];
+        while (artworks.length > 6) {
+            artworkBatch = artworks.splice(0, 6);
+            mosaics.push(this.makeMosaic(artworkBatch));
+            artworkBatch = []; // probably can skip this step but, just to be safe, let's empty the batch at the end of each loop
+        }
+
+        // Make one more partial mosaic with any remaining artworks
+        if (artworks.length > 0) {
+            mosaics.push(this.makeMosaic(artworks));
+        }
+
+        return (
+            <div className="artwork-grid">
+                {mosaics.map((mosaic) => mosaic)}
+            </div>
+        );
+    }
+
+    makeMosaic(artworkBatch) {
+        // It is assumed that the length of artworkBatch will always be <= 6
+        let mosaicSizes = [
+            'medium',
+            'large',
+            'medium-tall',
+            'small',
+            'tall',
+            'wide',
+        ];
+
+        // In order to give the mosaic-container a unique key, we'll use the id of the first artwork in the batch
+        return (
+            <div key={artworkBatch[0].id} className="mosaic-container">
+                {artworkBatch.map(artwork => {
+                    return this.makeMosaicItem(artwork, mosaicSizes.shift());
+                })}
+            </div>
+        );
+    }
+
+    makeMosaicItem(artwork, size) {
+        const webRoot = "http://127.0.0.1:8000";
+        const imageUrl = webRoot + artwork.image;
+        return (
+            <div key={artwork.id} className={`mosaic-item ${size}`} style={{"backgroundImage": `url(${imageUrl})`}}>
+                {artwork.title}
+            </div>
+        );
+    }
+
     render() { 
         return (
             <div className="collection-container">
@@ -27,13 +80,7 @@ class ArtworkCollection extends Component {
                     </h1>
                 </div>
                 <div className="container-body">
-                    <ul>
-                        {this.props.artworks.map((artwork) => {
-                            return (
-                                <li key={artwork.id}>{artwork.title}</li>
-                            );
-                        })}
-                    </ul>
+                    {this.makeArtworkGrid()}
                 </div>
             </div>
         );

@@ -1,0 +1,87 @@
+@import "variables";
+
+// Collection Mosaic
+.artwork-grid {
+    display: flex;
+    flex-direction: column;
+}
+
+.mosaic-container {
+    display: grid;
+    height: 100%;
+    grid-template-rows: repeat(8, 1fr);
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 1.5rem;
+}
+
+.mosaic-item {
+    padding: 1rem;
+    border: $border-main;
+    background-color: #fff;
+    color: $grey-light;
+    font-size: 1.5em;
+    font-weight: 500;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    background-size: cover;
+    background-position: top left;
+    position: relative;
+    z-index: 10;
+    transition: all ease-in-out 100ms;
+    min-height: 80px;
+
+    &.small {
+        grid-row: span 2;
+        grid-column: span 1;
+    }
+
+    &.medium {
+        grid-row: span 2;
+        grid-column: span 2;
+    }
+
+    &.medium-tall {
+        grid-row: span 3;
+        grid-column: span 2;
+    }
+
+    &.large {
+        grid-row: span 3;
+        grid-column: span 3;
+    }
+
+    &.wide {
+        grid-row: span 2;
+        grid-column: span 3;
+    }
+
+    &.tall {
+        grid-row: span 4;
+        grid-column: span 2;
+    }
+
+    &:hover {
+        color: #fff;
+        text-shadow: 0 0 5px rgba(53, 53, 53, 0.85);
+    }
+
+    &::before {
+        content: '';
+        display: block;
+        background: rgb(32, 32, 32);
+        opacity: 0.8;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        transition: all ease-in-out 300ms;
+        z-index: -1;
+      }
+      
+    &:hover::before {
+        opacity: 0.2;
+    }
+}
