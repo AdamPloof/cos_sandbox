@@ -8,6 +8,7 @@ import {
 
 import CollectionList from "./components/CollectionList";
 import ArtworkCollection from './components/ArtworkCollection';
+import Artwork from './components/Artwork';
 
 class ArtistMarket extends Component {
     constructor(props) {
@@ -99,13 +100,24 @@ class ArtistMarket extends Component {
         );
     }
 
-    getCollection(id) {
-        const selectedCollection = this.state.collections.find(artwork => artwork.id == id);
+    getCollection(routeProps) {
+
+        const selectedCollection = this.state.collections.find(collection => collection.id == routeProps.match.params.collectionId);
 
         return <ArtworkCollection 
             collection={selectedCollection} 
             artworks={this.state.artworks}
             fetchArtworks={this.fetchArtworks}
+            routeProps={routeProps}
+        />
+    }
+
+    getArtwork(routeProps) {
+        const selectedArtwork = this.state.artworks.find(artwork => artwork.id == routeProps.match.params.artworkId);
+
+        return <Artwork 
+            artwork={selectedArtwork}
+            routeProps={routeProps}
         />
     }
     
@@ -114,7 +126,8 @@ class ArtistMarket extends Component {
             <Router>
                 <Switch>
                     <Route exact path="/" render={() => this.getCollectionList()} />
-                    <Route path="/collection/:collectionId" render={(routeProps) => this.getCollection(routeProps.match.params.collectionId)} />
+                    <Route path="/collection/:collectionId" render={(routeProps) => this.getCollection(routeProps)} />
+                    <Route path="/artwork/:artworkId" render={(routeProps) => this.getArtwork(routeProps)} />
                 </Switch>
             </Router>
         );

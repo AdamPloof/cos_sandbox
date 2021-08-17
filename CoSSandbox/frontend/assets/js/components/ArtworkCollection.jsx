@@ -6,6 +6,8 @@ class ArtworkCollection extends Component {
         this.state = {
             activeArtwork: null,
         };
+
+        this.viewArtwork = this.viewArtwork.bind(this);
     }
 
     componentDidMount() {
@@ -16,6 +18,11 @@ class ArtworkCollection extends Component {
         if (this.props.collection != prevProps.collection) {
             this.props.fetchArtworks();
         }
+    }
+
+    viewArtwork(e) {
+        let { history } = this.props.routeProps;
+        history.push(`/artwork/${e.target.id}`);
     }
 
     makeArtworkGrid() {
@@ -65,7 +72,13 @@ class ArtworkCollection extends Component {
         const webRoot = "http://127.0.0.1:8000";
         const imageUrl = webRoot + artwork.image;
         return (
-            <div key={artwork.id} className={`mosaic-item ${size}`} style={{"backgroundImage": `url(${imageUrl})`}}>
+            <div 
+                key={artwork.id}
+                id={artwork.id}
+                className={`mosaic-item ${size}`} 
+                style={{"backgroundImage": `url(${imageUrl})`}}
+                onClick={this.viewArtwork}
+            >
                 {artwork.title}
             </div>
         );
