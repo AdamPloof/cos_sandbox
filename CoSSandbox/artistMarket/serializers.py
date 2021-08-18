@@ -12,6 +12,8 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class ArtworkSerializer(serializers.ModelSerializer):
+    artist = serializers.StringRelatedField()
+
     class Meta:
         model = ArtWork
         fields = [
